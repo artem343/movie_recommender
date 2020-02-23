@@ -3,4 +3,12 @@ from django.http import HttpResponse
 
 
 def home(request):
-    return HttpResponse('Blog home')
+    return render(request, 'movie_rec/home.html')
+
+
+def rate(request):
+    return HttpResponse('Rate movies here')
+
+
+def recommendations(request):
+    return HttpResponse('Your Recommendations')
