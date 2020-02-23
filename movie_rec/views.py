@@ -7,7 +7,7 @@ def home(request):
 
 
 def rate(request):
-    return HttpResponse('Rate movies here')
+    return render(request, 'movie_rec/rate.html')
 
 
 def recommendations(request):
