@@ -5,18 +5,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Movie(models.Model):
-    title = models.CharField(max_length=100, unique=True)
-    genres = models.ManyToManyField('Genre', related_name='movies')
+    title = models.CharField(max_length=100)
+    genres = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title
-
-
-class Genre(models.Model):
-    name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.name
 
 
 class Rating(models.Model):
