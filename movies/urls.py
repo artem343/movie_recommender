@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from users import views as user_views
 from django.contrib.auth import views as auth_views
+from movie_rec.views import MovieAutocomplete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,9 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('profile/', user_views.profile, name='profile'),
     path('', include('movie_rec.urls')),
+    path(
+        'movie-autocomplete/',
+        MovieAutocomplete.as_view(),
+        name='movie-autocomplete',
+    ),
 ]
