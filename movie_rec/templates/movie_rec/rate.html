@@ -2,23 +2,20 @@
 {% load static %}
 
 {% load crispy_forms_tags %}
-{% crispy rating_form rating_form.helper %}
+{% crispy rating_formset rating_formset_helper %}
 
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
+<article class="media content-section">
     <fieldset class="form-group">
-        <legend class="border-bottom mb-4">Rate a movie!</legend>
-        {{ form|crispy }}
+        <legend class="border-bottom mb-4">Rate some movies!</legend>
+        {% crispy formset helper %}
     </fieldset>
-    <div class="form-group">
-        <button class="btn btn-outline-info" type="submit">Rate</button>
-    </div>
-</form>
+</article>
+
 {% endblock %}
 
 {% block footer %}
 <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
 
-{{ form.media }}
+{{ formset.media }}
 {% endblock %}

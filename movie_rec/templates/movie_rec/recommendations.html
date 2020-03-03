@@ -1,0 +1,24 @@
+{% extends 'movie_rec/base.html' %}
+
+
+{% block content %}
+<article class="media content-section">
+    <div class="media-body">
+        <h4>Your recommendations</h4>
+        <ul>
+            {% for movie in recommendations %}
+            <li>
+                <p>{{ movie.title }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        <p>If you'd like to have more accurate recommendations, please
+            <a href="{% url 'movie_rec-rate' %}">rate more movies</a>!
+        </p>
+    </div>
+</article>
+{% endblock %}

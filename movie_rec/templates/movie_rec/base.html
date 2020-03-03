@@ -33,7 +33,10 @@
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
                         <a class="nav-item nav-link" href="{% url 'movie_rec-home' %}">Home</a>
+                        {% if user.is_authenticated %}
                         <a class="nav-item nav-link" href="{% url 'movie_rec-rate' %}">Rate</a>
+                        <a class="nav-item nav-link" href="{% url 'movie_rec-recommendations' %}">Recommendations</a>
+                        {% endif %}
                     </div>
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
