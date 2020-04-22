@@ -2,6 +2,7 @@ from movie_rec.models import Rating, Movie
 from users.models import Profile, User
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
+from django.db.models import Q
 
 
 class Recommender:
@@ -14,7 +15,11 @@ class Recommender:
 
     def get_preferences_unstacked(self):
 
-        df = pd.DataFrame.from_records(Rating.objects.all().values())
+        df = pd.DataFrame.from_records(
+            Rating.objects.filter(
+                Q(user__profile__is_fake=True) | Q(user__id=self.user.id)
+            ).values()
+        )
 
         df_unstacked = df \
             .groupby(['user_id', 'movie_id'])['rating'] \
@@ -54,7 +59,6 @@ class Recommender:
             df_unstacked.iloc[buddy].sort_values(ascending=False).index)
         recommendations = [
             x for x in buddy_favs if x not in user_watched_movies]
-        print(f"the buddy is {buddy}")
         return list(Movie.objects.filter(id__in=recommendations[:n]))
 
 
