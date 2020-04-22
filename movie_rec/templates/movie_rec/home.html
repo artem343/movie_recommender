@@ -3,7 +3,12 @@
 {% block content %}
 <article class="media content-section">
     <div class="media-body">
-        <h4>Main page</h4>
+        <h4>Welcome!</h4>
+        <p>It is a simple Django app with a movie recommendaion system, based on cosine similarity between users'
+            preferences.</p>
+        <p>Please <a href="{% url 'movie_rec-rate' %}">rate</a> some movies, and we'll give you
+            <a href="{% url 'movie_rec-recommendations' %}">recommendations</a> on what to
+            watch next!</p>
     </div>
 </article>
 {% endblock %}

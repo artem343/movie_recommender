@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from dal import autocomplete
@@ -50,12 +50,12 @@ def rate(request):
                             }
                         )
                         # TODO: Do I need a formset.save()?
-                        if created:
-                            messages.add_message(
-                                request, messages.SUCCESS, f'{request.user.username}, you have just rated {movie_entered}!')
-                        else:
-                            messages.add_message(
-                                request, messages.SUCCESS, f'{request.user.username}, you have updated rating for {movie_entered}.')
+                        # if created:
+                        #     messages.add_message(
+                        #         request, messages.SUCCESS, f'{request.user.username}, you have just rated {movie_entered}!')
+                        # else:
+                        #     messages.add_message(
+                        #         request, messages.SUCCESS, f'{request.user.username}, you have updated rating for {movie_entered}.')
                     except Exception as e:
                         print(e)
         else:
@@ -64,7 +64,9 @@ def rate(request):
         formset = RatingFormSet()
     helper = RatingFormSetHelper()
     helper.add_input(Submit("submit", "Rate"))
-    return render(request, 'movie_rec/rate.html', {'formset': formset, 'helper': helper})
+    user_ratings = Rating.objects.filter(
+        user_id=request.user.id).order_by('-timestamp')
+    return render(request, 'movie_rec/rate.html', {'formset': formset, 'helper': helper, 'user_ratings': user_ratings})
 
 
 @login_required
@@ -72,3 +74,13 @@ def recommendations(request):
     r = Recommender(request.user)
     recommendations = r.get_recommendations()
     return render(request, 'movie_rec/recommendations.html', {'recommendations': recommendations})
+
+
+@login_required
+def delete_rating(request, pk):
+    rating = get_object_or_404(Rating, pk=pk, user_id=request.user.id)
+
+    if request.method == 'GET':
+        rating.delete()
+
+    return redirect('movie_rec-rate')

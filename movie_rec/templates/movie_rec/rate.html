@@ -12,6 +12,29 @@
     </fieldset>
 </article>
 
+{% if user_ratings %}
+<article class="media content-section">
+    <div class="container">
+        <div class="row">
+            <p>Your ratings:</p>
+        </div>
+        <div class="row">
+            <div class="md-6">
+                <table class="table table-hover table-sm table-bordered">
+                    {% for rating in user_ratings %}
+                    <tr>
+                        <td><b>{{ rating.rating }}</b></td>
+                        <td>{{ rating.movie.title }}</td>
+                        <td><a href="{% url 'rating-delete' rating.id %}">❌</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</article>
+{% endif %}
+
 {% endblock %}
 
 {% block footer %}
